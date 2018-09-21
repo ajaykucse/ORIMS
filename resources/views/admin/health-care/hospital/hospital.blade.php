@@ -54,7 +54,7 @@
 	 				<td>{{ $value->details}}</td>
 	 			 	<td>
 	 					<a href=""><button class="btn btn-success btn-edit">Edit</button></a>&nbsp;
-	 					<a href="/delete/{{ $value->id }}">
+	 					<a href="/dashboard/delete/{{ $value->id }}">
 	 					<button class="btn btn-danger btn-delete">Delete</button></a>
 	 				</td>
 	 			 
@@ -75,6 +75,7 @@
 		$('#insert_hospital').modal('show');
 	})
 </script>
+
 <script type="text/javascript">
   
   $(".dropdown-menu li a").click(function(){

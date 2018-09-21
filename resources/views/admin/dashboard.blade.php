@@ -93,18 +93,20 @@
 
 			    <li class="divider"></li> 
 
-			    <li aria-hidden="true"><a href="#location"  data-toggle="tab" class="divider"><i class="glyphicon glyphicon-globe"></i> <span  >Region & City </span> <li class="divider"></li> </a>
+			    <li><a href="/dashboard/location"  class="divider"><i class="glyphicon glyphicon-globe"></i> <span  >Countries </span> <li class="divider"></li> </a>
+
+			    <li><a href="/dashboard/cities" target="_blank" class="divider"><i class="glyphicon glyphicon-globe"></i> <span  >Cities </span> <li class="divider"></li> </a>
 			     
-			  	<li><a href="#news"  data-toggle="tab" class="divider"><i class="fa fa-newspaper-o"></i> <span> News</span> <b class="arrow"></b></a></li>
+			  	<li><a href="/dashboard/news" target="_blank"  class="divider"><i class="fa fa-newspaper-o"></i> <span> News</span> <b class="arrow"></b></a></li>
 			   
 			   	<li class="divider"></li>
 
-			   	<li data-toggle="collapse" data-target="#service" class="collapsed">
+			   	<li data-toggle="collapse"  class="collapsed">
                   <a href="#"><i class="fa fa-h-square"></i> Health & Care  <span class="arrow"></span></a>
                 </li>  
                 <ul class="sub-menu collapse" id="service" type="none">
                    
-                <li><a href="#hospital"  data-toggle="tab" class="divider"><i class="fa fa-hospital-o"></i> <span> Hospital</span> <b class="arrow"></b></a></li>
+                <li><a href="/dashboard/hospital" class="divider"><i class="fa fa-hospital-o"></i> <span> Hospital</span> <b class="arrow"></b></a></li>
 
                 <li><a href="#doctor"  data-toggle="tab" class="divider"><i class="fa fa-user-md"></i> <span> Doctor</span> <b class="arrow"></b></a>
 			    </li>
@@ -132,11 +134,8 @@
                 </ul>  
 
 
-			  
 
-			    
-
-			    <li><a href="#news"  data-toggle="tab" class="divider"><i class="glyphicon glyphicon-shopping-cart"></i> <span> Hotel & Restaurant</span> <b class="arrow"></b></a></li>
+			    <li><a href="#"  id="showNews" data-toggle="tab" class="divider"><i class="glyphicon glyphicon-shopping-cart"></i> <span> Hotel & Restaurant</span> <b class="arrow"></b></a></li>
 
 			    <li><a href="#news"  data-toggle="tab" class="divider"><i class="glyphicon glyphicon-plane"></i> Travel & Tour</span> <b class="arrow"></b></a></li>
 
@@ -149,11 +148,15 @@
 				  
 
 
-			    <li><a href="#configuration" data-toggle="tab" class="divider"><i class="fa fa-cogs"></i> <span> Configuration</span></a></li>
+			    <li><a href="#configuration" data-toggle="tab" class="divider"><i class="fa fa-cogs"></i> <span> Configuration</span>
+			    </a></li>
 			    <li class="divider"></li>
 			    <li><a href="#users" data-toggle="tab" class="divider"><i class="fa fa-users"></i> <span> Users</span></a></li>
 			    <li class="divider"></li>
 			    <li><a href="#mail" data-toggle="tab" class="divider"><i class="fa fa-envelope"></i> <span> Mail</span></a></li>
+			    <li class="divider"></li>
+			     <br/><br/>
+			    
 		    </ul>
 	    </aside>
 	    
@@ -200,7 +203,7 @@
 	                   <div class="col-xs-12 col-sm-9">
 	                       <div class="panel panel-default">
 	                           <div class="panel-heading">
-	                               Something
+	                               Facilitates
 	                           </div>
 	                           <div class="panel-body">
 	                               This layout uses tabs to demonstrate what you could do with it. It probably makes more sense to use individual pages/templates in a production app.
@@ -212,7 +215,7 @@
 	                   <div class="col-xs-12 col-sm-3">
 	                       <div class="panel panel-default">
 	                           <div class="panel-heading">
-	                               Something
+	                               Operation
 	                           </div>
 	                           <div class="panel-body">
 	                               The sidebar is naturally responsive according to screen width. You can toggle it using the menu button in the topbar. Test it out by increasing/decreasing your screen width and watch it respond.
@@ -387,12 +390,8 @@
 	            	@include('admin.office.non_gov_office.NonGovOffice')  	 
 	           </section>
 	        </section>
-	        
-	        
-	                
-	        
+	         
 	    </section>
-	    
 	</article>
 		<script type="text/javascript">
 		$(".wrapper").toggleClass("toggled");
@@ -400,27 +399,9 @@
    		e.preventDefault();
    		$(".wrapper").toggleClass("toggled"); 
 });
-
- 
 	</script>
-    <script type="text/javascript">
-	$('#add').on('click',function(){
-		$('#locations').modal('show');
-	})
-</script>
-
-<script type="text/javascript">
-	$('#ad').on('click',function(){
-		$('#news').modal('show');
-	})
-</script>
-<script type="text/javascript">
-	$('#doc').on('click',function(){
-		$('#insert_doc').modal('show');
-	})
-</script>
 </body>
-@endif
+@endif 
 </html>
 
  

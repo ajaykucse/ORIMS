@@ -44,7 +44,7 @@
 
                   <option value="0" disabled="true" selected="true">-Select-</option>
                   @foreach($data as $val)
-                    <option value="{{$val->location_id}}">{{$val->country}}</option>
+                    <option value="{{$val->id}}">{{$val->name}}</option>
                   @endforeach
                 </select>
 
@@ -53,7 +53,7 @@
                   
                   <option value="0" disabled="true" selected="true">-Select-</option>
                     @foreach($data as $val)
-                    <option value="{{$val->location_id}}">{{$val->city_region}}</option>
+                    <option value="{{$val->id}}">{{$val->name}}</option>
                   @endforeach
                 </select>
               </div>

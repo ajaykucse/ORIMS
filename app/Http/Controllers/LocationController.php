@@ -1,56 +1,91 @@
 <?php
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 use DB;
- 
+ use App\Country;
+use Illuminate\Database\Eloquent\Model;
+
 class LocationController extends Controller
 {
 	public function index()
 	{
-		return view('admin.region.location');
+/*        $data = Country::paginate(2);
+        return view('admin.pages.location',compact('data'));*/
+        $data['data'] = DB::table('countries')->paginate(3);
+
+        if(count($data) > 0)
+        {
+            //return view('admin.region.location',$data);
+            return view('admin.pages.location',$data);
+
+        }
 	}
+	public  function create(){
+	    return view('admin.region.newLocation');
+    }
     //Function Insert Data Into Database 
    	public function insert(Request $request)
     {
-    	$country_code = $request->input('country_code');
-        $country      = $request->input('country');
-        $city_region  = $request->input('city_region');
-        $zip          = $request->input('zip');
+        $name = $request->input('name');
+        $code  = $request->input('code');
 
-        $data  = array('country_code'=>$country_code,'country'=>$country,'city_region'=>$city_region,'zip'=>$zip);
-        DB::table('location')->insert($data);
-        echo "Success";
+        $data  = array('name'=>$name,'code'=>$code,'created_at'=>Carbon::now()->toDateTimeString(),'updated_at'=>Carbon::now()->toDateTimeString());
+        DB::table('countries')->insert($data);
+        //echo "Success";
         //$this->getData();
-        return redirect('/dashboard');
+        return redirect('dashboard/location');
     }
 
-    // // Function To Get Data From Database 
-    // public function getData()
-    // {
-    //     $data['data'] = DB::table('location')->get();
+    // Function To Get Data From Database 
+    public function getData()
+    {
+        $data['data'] = DB::table('countries')->paginate(10);
 
-
-    //     if(count($data) > 0) 
-    //     {
-    //         return view('admin.region.dashboard',$data);
+        if(count($data) > 0) 
+        {
+            //return view('admin.region.location',$data);
+            return view('admin.pages.location',$data);
             
-    //     }
-    //     else
-    //     {
-    //         return view('admin.region.location');
+        }
+        else
+        {
+            //return view('admin.region.location');
+            return view('admin.pages.location');
 
-    //     }
-    // }
+        }
+    }
 
     // Function For delete Data From Database
-    public function delete($location_id)
+    public function delete($id)
     {
-        DB::table('location')->where('location_id',$location_id)->delete();
-        return redirect('/dashboard');
+        DB::table('countries')->where('id',$id)->delete();
+        return back();
     }
-    public function edit()
+    public function show()
     {
         // $data= location::find($location_id);
-        return view('admin.region.editLocation');
+       // return $location_id;
+        return view('admin.region.location');
+    }
+    /*public function location(){
+        //return view('admin.region.location');
+        return view('admin.pages.location');
+    }*/
+    public function edit($id)
+    {
+        $countries=Country::find($id);
+         
+        return view('admin.region.editLocation',compact('countries'));
+    }
+    public function update(Request $request, $id)
+    {
+        $countries=Country::find($id);
+        $countries->name = $request->input('name');
+        $countries->code = $request->input('code');
+         
+
+        $countries->update();
+        return redirect('/dashboard/location');
     }
 }

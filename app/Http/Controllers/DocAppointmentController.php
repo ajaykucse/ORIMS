@@ -13,8 +13,7 @@ class DocAppointmentController extends Controller
      */
     public function index()
     {
-        //
-        return view('admin.health-care.doctor-appointment.doctor-appointment');
+        return view('admin.pages.doctorAppointments');
     }
 
     /**
@@ -24,7 +23,10 @@ class DocAppointmentController extends Controller
      */
     public function create()
     {
-        //
+        $doctors = DB::table('doctors')->get();
+        $hospitals = DB::table('hospitals')->get();
+
+        return view('admin.health-care.doctor-appointment.insertDoctor-appointment',compact('doctors','hospitals'));
     }
 
     /**
@@ -33,17 +35,20 @@ class DocAppointmentController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $req)
     {
-        $start_time = $request->input('start_time');
-        $end_time = $request->input('end_time');
+        $month = $req->input('month');
+        $day = $req->input('day');
+        $startTime = $req->input('startTime');
+        $endTime = $req->input('endTime');
+        $doctor_id = $req->input('doctor_id');
+        $hospital_id = $req->input('hospital_id');
+        
 
-
-        $docdata  = array('start_time' =>$start_time,"end_time"=>$end_time );
-
-        DB::table('doctor_appointment')->insert($docdata);
-        $this->getData();
-        return redirect()->back();
+        $docappointments  = array('month'=>$month,'day'=>$day,'startTime'=>$startTime,'endTime'=>$endTime,'doctor_id'=>$doctor_id,'hospital_id'=>$hospital_id,'created_at'=>Carbon::now()->toDateTimeString(),'updated_at'=>Carbon::now()->toDateTimeString());
+        DB::table('docappointments')->insert($docappointments);
+        
+        return back();
         
     }
 

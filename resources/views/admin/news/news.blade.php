@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <title>Create News</title>
+  <link rel="icon" type="image/gif/png" href="_/images/url.ico">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -52,7 +53,7 @@
 	 				<td>{{ $value->url }}</td>
 	 				<td>
 	 					<a href="#"><button class="btn btn-success btn-edit" id="edit">Edit</button></a>&nbsp;
-	 					<a href="/delete/{{$value->news_id}}">
+	 					<a href="/dashboard/delete/{{$value->news_id}}">
 	 					<button class="btn btn-danger btn-delete">Delete</button></a>
 	 				</td>
 	 			</tr>
@@ -68,8 +69,6 @@
 	$('#adnews').on('click',function(){
 		$('#insNews').modal('show');
 	})
-
-
 	// editNews
 </script>
 </body>

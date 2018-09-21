@@ -11,13 +11,20 @@
 |
 */
 Route::get('/', 'PublicHomeController@index');
+//Route::get('/insert/cities', 'CitiesController@cities');
+
+
 Route::get('/news/view/{id}', 'PublicHomeController@update');
 
-// Route::get('/sign-in', function () {
-//     return view('auth/login');
-// });
+Route::get('/sign-in', function () {
+     return view('auth/login');
+});
 
-// For Login Sign Up Authontication
+//For Login Sign Up Authontication
+
+
+
+
 
 Route::get('/signin', function () {
     return view('loggedin');
@@ -35,9 +42,9 @@ return view('register.register');
 });
 Route::get('/forgot-password','ForgotPasswordController@forgotPassword');
 Route::post('/forgot-password','ForgotPasswordController@postForgotPassword');
-// Route::get('/dashboard', function () {
-//     return view('admin.dashboard');
-// });
+Route::get('/dashboard', function () {
+     return view('admin.dashboard');
+});
  
 Auth::routes();
 
@@ -51,68 +58,105 @@ Route::get('/index',function(){
 });
  
 Route::get('dashboard', 'AdminController@dashboard');
+Route::get('/delete/{location_id}','AdminController@delete');
 Route::get('/delete/{news_id}','AdminController@delete');
 Route::get('/delete/{docid}','AdminController@delete');
 Route::post('store/details', 'AdminController@storeLocation');
 
-// Auth:: routes();
+Auth:: routes();
 
-// Route::get('master', 'HomeController@admin'); 
+Route::get('master', 'HomeController@admin'); 
 
 
 Auth::routes();
 
-// Route::get('/home', 'HomeController@index');
+Route::get('/home', 'HomeController@index');
 
-// For Region & City 
+//For Countries 
+Route::get('/dashboard/location','LocationController@index');
+Route::get('/dashboard/location/create','LocationController@create');
 Route::post('/insert/location','LocationController@insert');
-Route::get('/location','LocationController@getData');
-Route::get('/delete/{id}','LocationController@delete');
-Route::get('/edit','LocationController@edit');
+//Route::get('/dashboard/location','LocationController@getData');
+Route::get('/delete/{location_id}','LocationController@delete');
+Route::get('/show/location','LocationController@show');
+//Route::get('/edit/(location_id)','LocationController@edit')->name('edit');
+Route::get('/location/{id}/edit','LocationController@edit');
+Route::put('/location/{id}','LocationController@update');
 
-// For News
+// For Cities
+Route::get('/dashboard/cities','CitiesController@cities');
+Route::get('/dashboard/cities/edit/{id}','CitiesController@edit');
+Route::post('/dashboard/cities/update/{id}','CitiesController@update');
+Route::post('/store/cities', 'CitiesController@store');
+/*Route::get('/dashboard/cities','CitiesController@getCities');
+Route::get('/dashboard/cities','CitiesController@show');
+Route::get('/dashboard/cities','CitiesController@cities');
+Route::get('/dashboard/cities','CitiesController@showCities');*/
+Route::get('/delete/{id}','CitiesController@delete');
+Route::get('/show/cities','CitiesController@show');
+Route::get('/dashboard/cities/create','CitiesController@create');
+
+
+//For News
+Route::get('/dashboard/news','NewsController@news');
 Route::get('news/list','NewsController@newsList');
 Route::get('/news','NewsController@create');
 Route::post('/insert/news','NewsController@store');
-Route::get('/news','NewsController@getData');
-Route::get('/delete/{news_id}','NewsController@delete');
+Route::get('/dashboard/news','NewsController@getData');
+Route::get('/dashboard/delete/{news_id}','NewsController@delete');
 // Route::get('/edit','NewsController@edit');
 
-// For hospital 
-Route::get('/hospital','HospitalController@index');
-Route::get('/delete/{id}','HospitalController@delete');
+//For hospital 
+Route::get('/dashboard/hospital','HospitalController@index');
+Route::get('/dashboard/hospital/create','HospitalController@create');
+Route::post('select-ajax',['as'=>'select-ajax','uses'=>'HospitalController@selectAjax']);
+Route::get('/dashboard/delete/{id}','HospitalController@delete');
 Route::post('/hospital/store','HospitalController@store');
 
 
-// For doctor 
-Route::get('/doctor','DoctorController@index');
+//For doctor 
+Route::get('/dashboard/doctor','DoctorController@index');
+Route::get('/dashboard/doctor/create','DoctorController@create');
 Route::post('/doctor/store','DoctorController@store');
+Route::get('/dashboard/delete/{id}','DoctorController@delete');
  
 
 //For DocAppointment
-Route::get('/docAppoint','DocAppointmentController@index');
+Route::get('/dashboard/docAppoint','DocAppointmentController@index');
+Route::get('/dashboard/doctorAppointments/create','DocAppointmentController@create');
 Route::get('/docAppoint','DocAppointmentController@getData');
 Route::post('/docAppoint/store','DocAppointmentController@store');
 
 
 
 //For Amulance
-Route::get('/ambulance','AmbulanceCotroller@index');
-Route::post('/ambulance/store','AmbulanceCotroller@store');
+Route::get('/dashboard/ambulance','AmbulanceCotroller@index');
+Route::get('/dashboard/ambulance/create','AmbulanceCotroller@create');
+Route::post('/dashboard/ambulance/store','AmbulanceCotroller@store');
 
+//For BloodBank
+Route::get('/dashboard/bloodBank','BloodBankController@index');
+Route::get('/dashboard/bloodbank/create','BloodBankController@create');
+Route::post('select-ajax',['as'=>'select-ajax','uses'=>'BloodBankController@selectAjax']);
+Route::post('/dashboard/bloodbank/store','BloodBankController@store');
 
-// For government office
+//For BloodGroup
+Route::get('/dashboard/bloodgroup','BloodGroupController@index');
+Route::get('/dashboard/bloodgroup/create','BloodGroupController@create');
+Route::post('/dashboard/bloodbgroup/store','BloodGroupController@store');
+
+//For government office
 Route::get('/govOffice','govOfficeController@index');
 Route::post('/insert/govOffice','govOfficeController@store');
 Route::post('/delete/{id}','govOfficeController@destroy');
 
-// For nongovernment office
+//For nongovernment office
 Route::post('/insert/NongovOffice','NonGovCotroller@store');
 
 // For nongovernment office NonGovOfficeController
 //Route::post('/store/details','NonGovOfficeController@store');
 
-//For Public Page
+// For Public Page
 
 Auth::routes();
 
@@ -128,17 +172,20 @@ Route::get('/news/{id}', 'PublicHomeController@showIndividualNews');
 // For Health-Care
 Route::get('/health-care', 'PublicHomeController@showHealthCare');
 
+// For Blood-Group
+Route::get('/bloodbank','PublicHomeController@showBloodBank');
 
-//For Office
+// For Office
 Route::get('/office', 'PublicHomeController@showOffice');
 
 
-//For Hotel-Restaurant
+// For Hotel-Restaurant
 Route::get('/hotel-restaurant','PublicHomeController@showhotel_restaurant');
 
-//For Travel-Tour
+// For Travel-Tour
 Route::get('/travel-tour','PublicHomeController@showtravel_tour');
 
 
 //For Education
 Route::get('/education','PublicHomeController@showeducation');
+

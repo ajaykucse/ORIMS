@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use DB;
+use Carbon\Carbon;
 class AmbulanceCotroller extends Controller
 {
     /**
@@ -13,8 +14,7 @@ class AmbulanceCotroller extends Controller
      */
     public function index()
     {
-        //
-        return view('admin.health-care.ambulance.ambulance');
+        return view('admin.pages.ambulance');
     }
 
     /**
@@ -24,7 +24,8 @@ class AmbulanceCotroller extends Controller
      */
     public function create()
     {
-        //
+        $hospitals = DB::table('hospitals')->get();
+        return view('admin.health-care.ambulance.insertAmbulance', compact('hospitals'));
     }
 
     /**
@@ -33,15 +34,19 @@ class AmbulanceCotroller extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $req)
     {
-        $car_no = $request->input('car_no');
-        $cantact = $request->input('cantact');
+        $car_no = $req->input('car_no');
+        $contact = $req->input('contact');
+        $address = $req->input('address');
+        $owner = $req->input('owner');
+        $hospital_id = $req->input('hospital_id');
+        
 
-        $cardata = array('car_no' => $car_no,"cantact"=>$cantact);
+        $ambulances  = array('car_no'=>$car_no,'contact'=>$contact,'address'=>$address,'owner'=>$owner,'hospital_id'=>$hospital_id,'created_at'=>Carbon::now()->toDateTimeString(),'updated_at'=>Carbon::now()->toDateTimeString());
+        DB::table('ambulances')->insert($ambulances);
 
-        DB::table('ambulance')->insert($cardata);
-        return redirect()->back();
+        return back();
     }
 
     /**

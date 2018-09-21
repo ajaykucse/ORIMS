@@ -4,51 +4,48 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use DB;
+use App\Doctor;
+use Carbon\Carbon;
 class DoctorController extends Controller
 {
-   public function index()
+    public function index()
     {
-        return view('admin.health-care.doctor.doctor');
+        $doctors=Doctor::orderBy('id','ASC')->paginate(5);
+        return view('admin.pages.doctors',compact('doctors'));
     }
-       //Function Insert Data Into Database 
+    public function create()
+    {
+        $hospitals = DB::table('hospitals')->get();
+        return view('admin.health-care.doctor.insertDoctor', compact('hospitals'));  
+    }
+        //Function Insert Data Into Database 
     public function store(Request $req)
     {
         $name = $req->input('name');
+        $designation = $req->input('designation');
         $specialist = $req->input('specialist');
-        $degree  = $req->input('degree');
+        $chamber = $req->input('chamber');
+        $degree = $req->input('degree');
         $contact = $req->input('contact');
+        $address = $req->input('address');
+        $hospital_id = $req->input('hospital_id');
         
-        //$hospitals = DB::table('hospitals')->where('h_id', '=',$h_id)->get();
-        // $photo = $req->input('photo');
 
-        $doctor  = array('name'=>$name,'specialist'=>$specialist,'degree'=>$degree,'contact'=>$contact);
-        DB::table('doctor')->insert($doctor);
-        echo "Success";
+        $doctors  = array('name'=>$name,'designation'=>$designation,'specialist'=>$specialist,'chamber'=>$chamber,'degree'=>$degree,'contact'=>$contact,'address'=>$address,'created_at'=>Carbon::now()->toDateTimeString(),'updated_at'=>Carbon::now()->toDateTimeString());
+        DB::table('doctors')->insert($doctors);
+        
+        $all = Doctor::orderBy('id', 'desc')->first();
+        $doctor_id = ($all->id);
+         
 
-        return redirect()->back();
-        $this->getData();
-        // return redirect('/dashboard');
+        $hospital_doctor = array('hospital_id' => $hospital_id,'doctor_id'=> $doctor_id,'created_at'=>Carbon::now()->toDateTimeString(),'updated_at'=>Carbon::now()->toDateTimeString());
+        DB::table('hospital_doctor')->insert($hospital_doctor);
 
+        return back();
     }
-    public function getData()
+    public function delete($id)
     {
-        $doctor['da'] = DB::table('doctor')->get();
-
-
-        if(count($doctor) > 0) 
-        {
-            return view('admin.health-care.doctor.dashboard',$doctor);
-            
-        }
-        else
-        {
-            return view('admin.health-care.hospital.hospital');
-
-        }
-    }
-    public function delete($docid)
-    {
-        DB::table('doctor')->where('docid',$docid)->delete();
-        return 'success';
+        DB::table('doctors')->where('id',$id)->delete();
+        return back();
     }
 }

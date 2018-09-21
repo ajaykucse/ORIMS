@@ -1,70 +1,84 @@
-<!-- Modal -->
- 
-  <div class="modal fade" id="insert_hospital" role="dialog" >
-    <div class="modal-dialog modal-lg">
-    
-      <!-- Modal content-->
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">New Hospital</h4>
-        </div>
-        <div class="modal-body custom-height-modal">
-          <form action="/hospital/store" method="post" id="frmHospital">
+<br><br>
+@extends('admin.layouts.master')
+@section('content')
+<div class="panel panel-default">
+<div class="panel-headin">
+     <div class="well well-sm" style="color: #333;background-color: #4D545D;border-color: #ddd;">
+      <h3>Add New Hospital</h3>
+     </div>
+  </div>
+          <form action="/hospital/store" method="post" id="validator">
             <div class="row">
                 {{ csrf_field() }}
+                <div class="col-lg-4 col-sm-4">
+                  <div class="from-group">
+                    <input type="text" name="name" id="name" placeholder="Name" class="form-control" required>
+                  </div>
+                </div>
+                 <div class="col-lg-4 col-sm-4">
+                  <div class="from-group">
+                    <input type="text" name="contact" id="contact" placeholder="Contact" class="form-control" required>
+                  </div>
+                </div>
+                 <div class="col-lg-4 col-sm-4">
+                  <div class="from-group">
+                    <input type="text" name="url" id="url" placeholder="URL" class="form-control" required>
+                  </div>
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-lg-4 col-sm-4">
+                <div class="form-group">
+                    <textarea name="address" id="details" class="form-control" placeholder="Address" required></textarea>
+                </div>
+                </div>
                 <div class="col-lg-2 col-sm-2">
                   <div class="from-group">
-                    <input type="text" name="name" id="name" placeholder="Name" class="form-control">
+                    <input type="text" name="lat" id="lat" placeholder="Latitude" class="form-control" required>
                   </div>
                 </div>
-                 <div class="col-lg-2 col-sm-2">
+                <div class="col-lg-2 col-sm-2">
                   <div class="from-group">
-                    <input type="text" name="contact" id="contact" placeholder="Contact" class="form-control">
+                    <input type="text" name="long" id="long" placeholder="Longitude" class="form-control" required>
                   </div>
                 </div>
-                 <div class="col-lg-2 col-sm-2">
-                  <div class="from-group">
-                    <input type="text" name="url" id="url" placeholder="URL" class="form-control">
-                  </div>
-                </div>
-                <div class="col-lg-3 col-sm-3">
-                <div class="form-group">
-                    <textarea name="details" id="details" class="form-control" placeholder="Details"></textarea>
-                </div>
-                </div>
-               <!--  <div class="form-group">
-                  <label class="control-label"> Upload Img:</label>
-                    <div class="col-xs-2">
-                      <input type="file" name="photo" id="photo" placeholder="Image" class="form-control">
-                    </div>
-                </div> -->
-              <div class="col-lg-1 col-sm-1">
-                <span>Country:</span>
-                <select style="width: 150px;" class="country" id="country_id">
-
-                  <option value="0" disabled="true" selected="true">-Select-</option>
-                  @foreach($data as $val)
-                    <option value="{{$val->location_id}}">{{$val->country}}</option>
-                  @endforeach
-                </select>
-
-                <span>Region:</span>
-                <select style="width: 150px;" class="city" id="city_id" name="location_id">
-                  
-                  <option value="0" disabled="true" selected="true">-Select-</option>
-                    @foreach($data as $val)
-                    <option value="{{$val->location_id}}">{{$val->city_region}}</option>
+              <div class="col-lg-2 col-sm-2">
+                <select style="width: 150px;" class="country form-control" name="country_id" required>
+                  <option value="0" selected="true">-Select-Country-</option>
+                    @foreach($countries as $country)
+                        <option value="{{$country->id}}">{{$country->name}}</option>
                     @endforeach
                 </select>
               </div>
-        </div>
-        <div class="modal-footer">
-          <input type="submit" name="Save" id="save" class="btn btn-primary">
-          <button type="cancel" class="btn btn-dark" data-dismiss="modal" onclick="return false;">Close</button>
-        </div>
-          </form> 
+              <div class="col-lg-2 col-sm-2">
+                  <select class="form-control" name="city_id" required>
+                      <option>--- Select City ---</option>
+                  </select>
+              </div>
+            </div>
+          <input type="submit" name="Save" id="save" class="btn btn-primary">   
+        </form> 
       </div>
-    </div>
-  </div>
-</div>
+@endsection
+@section('script')
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script type="text/javascript">
+    $("select[name='country_id']").change(function(){
+        var country_id = $(this).val();
+        var token = $("input[name='_token']").val();
+        $.ajax({
+            url: "<?php echo route('select-ajax') ?>",
+            method: 'POST',
+            data: {
+                country_id:country_id,
+                _token:token
+            },
+            success: function(data) {
+                $("select[name='city_id']").html('');
+                $("select[name='city_id']").html(data.options);
+            }
+        });
+    });
+</script>
+@endsection

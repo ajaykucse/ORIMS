@@ -12,14 +12,18 @@ class AdminController extends Controller
     {
 
         $news = DB::table('news')->paginate(5);
-        $data = DB::table('location')->paginate(5);
+        $data = DB::table('countries')->paginate(5);
         $hospitals = DB::table('hospitals')->paginate(5);
         $doctor = DB::table('doctor')->paginate(5);
         $govOffice = DB::table('govoffice')->paginate(5);
         $cardata = DB::table('ambulance')->paginate(5);
         $docdata = DB::table('doctor_appointment')->paginate(5);
-        
-            return view('admin.dashboard')
+        $countries = DB::table('countries')->paginate(5);
+        $id = DB::table('countries')->paginate(5);
+        //return view('admin.dashboard')
+        return view('admin.pages.maincontent')
+            ->with('id',$id)
+            ->with('countries',$countries)
             ->with('data',$data)
             ->with('news',$news)
             ->with('hospitals',$hospitals)
@@ -27,29 +31,23 @@ class AdminController extends Controller
             ->with('govoffice',$govOffice)
             ->with('cardata',$cardata)
             ->with('docdata',$docdata);
-     
-
-
-
-
-        
- 
-
+         
+        //return view('admin.pages.maincontent');
         // Data show for Hospital
 
-        $da['da'] = DB::table('hospitals')->get();
+        // $da['da'] = DB::table('hospitals')->get();
 
 
-        if(count($da) > 0) 
-        {
-            return view('admin.dashboard',$da);
+        // if(count($da) > 0) 
+        // {
+        //     return view('admin.dashboard',$da);
             
-        }
-        else
-        {
-            return view('admin.health-care.hospital.hospital');
+        // }
+        // else
+        // {
+        //     return view('admin.health-care.hospital.hospital');
 
-        }
+        // }
 
         // For news
 
@@ -78,8 +76,8 @@ class AdminController extends Controller
         $contact = $request->input('contact');
         $url  = $request->input('url');
         $details = $request->input('details');
-        $location_id = $request->input('location_id');
-        $da  = array('name'=>$name,'contact'=>$contact,'url'=>$url,'details'=>$details,'location_id'=>$location_id);
+        $location_id = $request->input('id');
+        $da  = array('name'=>$name,'contact'=>$contact,'url'=>$url,'details'=>$details,'id'=>$id);
         DB::table('hospital')->insert($da);
         echo "Success";
         // return redirect('/dashboard');
@@ -101,28 +99,29 @@ class AdminController extends Controller
 
     public function insert(Request $request)
     {
-        $country_code = $request->input('country_code');
-        $country      = $request->input('country');
-        $city_region  = $request->input('city_region');
-        $zip          = $request->input('zip');
+        $name = $request->input('name');
+        $code      = $request->input('code');
+         
 
-        $data  = array('country_code'=>$country_code,'country'=>$country,'city_region'=>$city_region,'zip'=>$zip);
-        DB::table('location')->insert($data);
+        $data  = array('name'=>$name,'code'=>$code);
+        DB::table('countries')->insert($data);
         echo "Success";
         $this->getData();
     }
     public function delete($location_id,$news_id,$id,$docid)
     {
-        DB::table('location')->where('location_id',$location_id)->delete();
+        DB::table('countries')->where('id',$location_id)->delete();
         DB::table('news')->where('news_id',$news_id)->delete();
         DB::table('hospitals')->where('id',$id)->delete();
         DB::table('doctor')->where('docid',$docid)->delete();
         //$this->getData();
     }
-    public function edit($location_id)
+    public function edit($id)
     {
-        $data= location::find($location_id);
+        $data= location::find($id);
         return view('admin.region.editLocation',['data'=>$data]);
     }
+
+  
     
 }

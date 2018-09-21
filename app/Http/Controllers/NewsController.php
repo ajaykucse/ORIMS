@@ -51,8 +51,8 @@ class NewsController extends Controller
                  $file->move(public_path().'/images/news/', $file->getClientOriginalName());
                  $news->photo = $file->getClientOriginalName();
                  $news->save();
-                 return 'success';
-                 return redirect('/dashboard');
+                 //return redirect()->back();
+                 echo json_encode(1);
              } else {
                  return 'only image file are allowed';
              }
@@ -69,12 +69,12 @@ class NewsController extends Controller
 
     public function getData()
     {
-        $data['data'] = DB::table('news')->get();
+        $news['news'] = DB::table('news')->paginate(10);
 
 
-        if(count($data) > 0) 
+        if(count($news) > 0) 
         {
-            return view('admin.news.dashboard',$data);
+            return view('admin.news.news',$news);
             
         }
         else
@@ -94,6 +94,9 @@ class NewsController extends Controller
     {
         $data= news::find($news_id);
         return view('admin.region.editNews',['data'=>$data]);
+    }
+    public function news(){
+        return view('admin.news.news');
     }
  
 }

@@ -1,19 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Create Location</title>
+  <title>New Country</title>
+  <link rel="icon" type="image/gif/png" href="_/images/url.ico">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
   
 </head>
 <body>
 <div class="panel panel-default">
  	<div class="panel-headin">
  		 <div class="well well-sm" style="color: #333;background-color: #4D545D;border-color: #ddd;">
- 		 	<h3> Add New Region & City </h3>
+ 		 	<h3> Add New Country </h3>
  		 </div>
  	</div>
  	<div class="pull-left">
@@ -41,22 +43,24 @@
  		@if(isset($data))
  		<table class="table table-bordered table-striped table table-hover">
  			<tr>
- 				<td>Country Code</td>
+ 				 
  				<td>Country Name</td>
- 				<td>City & Region</td>
- 				<td>Zip Code</td>
+ 				 
+ 				<td>Country Code</td>
  				<td colspan="2">Action</td>
  			</tr>
  			<tbody>
  			@foreach($data as $value)
 	 			<tr>
-	 				<td>{{ $value->country_code }}</td>
-	 				<td>{{ $value->country }}</td>
-	 				<td>{{ $value->city_region }}</td>
-	 				<td>{{ $value->zip}}</td>
+	 				<td>{{ $value->name }}</td>
+	 				<td>{{ $value->code }}</td>
+	 				 
 	 				<td>
-	 					<a href="#"><button class="btn btn-success btn-edit" id="edit">Edit</button></a>&nbsp;
-	 					<a href="/delete/{{ $value->location_id }}">
+	 					<a href="#">
+
+	 					<button class="btn btn-success btn-edit" id="edit">Edit</button></a>&nbsp;
+
+	 					<a href="/delete/{{ $value->id }}">
 	 					<button class="btn btn-danger btn-delete">Delete</button></a>
 	 				</td>
 	 			</tr>
